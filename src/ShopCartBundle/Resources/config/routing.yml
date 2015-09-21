@@ -51,15 +51,15 @@ shop_cart_item_delete:
         id:  \d+
 
 
-shop_cart_cartitems_show:
-    path:     /cartitems/
-    defaults: { _controller: ShopCartBundle:CartItems:show }
-    requirements:
-        id:  \d+
+# shop_cart_cartitems_show:
+#     path:     /cartitems/
+#     defaults: { _controller: ShopCartBundle:CartItems:show }
+#     requirements:
+#         id:  \d+
 
-shop_cart_cartitems_add:
-    path:     /cartitems/{id}/add
-    defaults: { _controller: ShopCartBundle:CartItems:add }
+# shop_cart_cartitems_add:
+#     path:     /cartitems/{id}/add
+#     defaults: { _controller: ShopCartBundle:CartItems:add }
 
 
 

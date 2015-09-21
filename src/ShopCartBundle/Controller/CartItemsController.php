@@ -92,17 +92,17 @@ class CartItemsController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function addAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
+    // public function addAction($id)
+    // {
+    //     $em = $this->getDoctrine()->getEntityManager();
 
-        $item = $em->getRepository('ShopCartBundle:Items')->find($id);
-        $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
+    //     $item = $em->getRepository('ShopCartBundle:Items')->find($id);
+    //     $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
 
-        $cart->addItemid($item);
+    //     $cart->addItemid($item);
 
-        $em->flush();
-    }
+    //     $em->flush();
+    // }
 
     /**
      * Finds and displays a CartItems entity.
