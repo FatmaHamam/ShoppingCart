@@ -93,23 +93,24 @@ class CartController extends Controller
      */
     public function newAction($id)
     {
-        // $entity = new Cart();
-        // $form   = $this->createForm(new CartType(), $entity);
+        $entity = new Cart();
+        $form   = $this->createForm(new CartType(), $entity);
 
-        // return array(
-        //     'entity' => $entity,
-        //     'form'   => $form->createView(),
-        // );
-        $em = $this->getDoctrine()->getEntityManager();
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView(),
+        );
+        // $em = $this->getDoctrine()->getEntityManager();
 
-        $item = $em->getRepository('ShopCartBundle:Items')->find($id);
-        $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
+        // $item = $em->getRepository('ShopCartBundle:Items')->find($id);
+        // $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
 
-        $cart->addItemid($item);
-        $cart->persist($item);
-        $em->flush();
+        // $cart->addItemid($item);
+        // $cart->persist($item);
+        // $em->flush();
     }
 
+// Add Item to Cart
     public function addAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
@@ -260,6 +261,8 @@ class CartController extends Controller
      *
      * @return \Symfony\Component\Form\Form The form
      */
+
+    // Delete item from cart
     private function deleteitemAction($id)
     {
         $em = $this->getDoctrine()->getEntityManager();
