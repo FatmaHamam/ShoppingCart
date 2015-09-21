@@ -1,0 +1,7 @@
+shop_cart:
+    resource: "@ShopCartBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: "@AppBundle/Controller/"
+    type:     annotation

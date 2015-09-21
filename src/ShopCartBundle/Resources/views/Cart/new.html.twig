@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Cart creation</h1>
+
+    
+
+        <ul class="record_actions">
+    <li>
+        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+            Back to the list
+        </a>
+    </li>
+</ul>
+{% endblock %}

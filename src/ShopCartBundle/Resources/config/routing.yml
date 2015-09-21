@@ -1,0 +1,65 @@
+shop_cart_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ShopCartBundle:Default:index }
+
+shop_cart_cart_show:
+    path:     /carts/
+    defaults: { _controller: ShopCartBundle:Cart:index }
+
+shop_cart_cart_new:
+    path:     /carts/{id}/add
+    defaults: { _controller: ShopCartBundle:Cart:add }
+
+shop_cart_cart_deleteitem:
+    path:     /carts/{id}/deleteitem
+    defaults: { _controller: ShopCartBundle:Cart:deleteitem }
+
+shop_cart_cart_create:
+    path:     /carts/create
+    defaults: { _controller: ShopCartBundle:Cart:create }
+
+shop_cart_cart_AddItemToCart:
+    path:     /carts/{id}/AddItemToCart
+    defaults: { _controller: ShopCartBundle:Cart:AddItemToCart }
+
+
+
+
+
+
+
+
+shop_cart_item_show:
+    path:     /items/
+    defaults: { _controller: ShopCartBundle:Items:index }
+
+
+shop_cart_item_add:
+    path:     /items/add/
+    defaults: { _controller: ShopCartBundle:Items:create }
+
+shop_cart_item_edit:
+    path:     /items/{id}/edit
+    defaults: { _controller: ShopCartBundle:Items:edit }
+    requirements:
+        id:  \d+
+
+shop_cart_item_delete:
+    path:     /items/{id}/delete
+    defaults: { _controller: ShopCartBundle:Items:delete }
+    requirements:
+        id:  \d+
+
+
+shop_cart_cartitems_show:
+    path:     /cartitems/
+    defaults: { _controller: ShopCartBundle:CartItems:show }
+    requirements:
+        id:  \d+
+
+shop_cart_cartitems_add:
+    path:     /cartitems/{id}/add
+    defaults: { _controller: ShopCartBundle:CartItems:add }
+
+
+

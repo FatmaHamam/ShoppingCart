@@ -1,0 +1,48 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Cart list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Totalprice</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}"></a>{{entity.id}}</td>
+                <td>{{ entity.description }}</td>
+                <td>{{ entity.totalprice }}</td>
+                <td>{{ entity.type }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">
+                Create a new entry
+            </a>
+        </li>
+        <li>
+            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">AddItemtoCart</a>
+        </li>
+    </ul>
+    {% endblock %}

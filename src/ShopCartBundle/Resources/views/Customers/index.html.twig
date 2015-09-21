@@ -1,0 +1,43 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Customers list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Customerid</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('customers_show', { 'id': entity.customerid }) }}">{{ entity.customerid }}</a></td>
+                <td>{{ entity.name }}</td>
+                <td>{{ entity.email }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('customers_show', { 'id': entity.customerid }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('customers_edit', { 'id': entity.customerid }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('customers_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}
