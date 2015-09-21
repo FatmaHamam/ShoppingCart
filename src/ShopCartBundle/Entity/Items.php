@@ -52,16 +52,16 @@ class Items
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Cart", mappedBy="itemid")
+     * @ORM\OneToMany(targetEntity="CartItems" , mappedBy="items" , cascade={"all"})
      */
-    protected $cartid;
+    protected $c;
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->cartid = new \Doctrine\Common\Collections\ArrayCollection();
+
     }
 
 
@@ -178,30 +178,44 @@ class Items
      *
      * @return Items
      */
-    public function addCartid(\ShopCartBundle\Entity\Cart $cartid)
-    {
-        $this->cartid[] = $cartid;
+    // public function addCartid(\ShopCartBundle\Entity\Cart $cartid)
+    // {
+    //     $this->cartid[] = $cartid;
 
-        return $this;
+    //     return $this;
+    // }
+
+    // /**
+    //  * Remove cartid
+    //  *
+    //  * @param \ShopCartBundle\Entity\Cart $cartid
+    //  */
+    // public function removeCartid(\ShopCartBundle\Entity\Cart $cartid)
+    // {
+    //     $this->cartid->removeElement($cartid);
+    // }
+
+    // /**
+    //  * Get cartid
+    //  *
+    //  * @return \Doctrine\Common\Collections\Collection
+    //  */
+    // public function getCartid()
+    // {
+    //     return $this->cartid;
+    // }
+    public function getC()
+    {
+        return $this->c;
     }
 
-    /**
-     * Remove cartid
-     *
-     * @param \ShopCartBundle\Entity\Cart $cartid
-     */
-    public function removeCartid(\ShopCartBundle\Entity\Cart $cartid)
+    public function setC($c)
     {
-        $this->cartid->removeElement($cartid);
+        $this->c = $c;
     }
-
-    /**
-     * Get cartid
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCartid()
+          
+    public function __toString()
     {
-        return $this->cartid;
+        return $this->name;
     }
 }

@@ -3,7 +3,7 @@
 namespace ShopCartBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Cart
  *
@@ -75,6 +75,25 @@ class Cart
         $this->itemid = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+    /**
+     * @ORM\OneToMany(targetEntity="CartItems", mappedBy="cart", cascade={"all"})
+     * */
+    protected $po;
+     public function __construct()
+    {
+        $this->po = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    protected $item;
+
+    public function __construct()
+    {
+        $this->item = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -214,5 +233,31 @@ class Cart
     public function getItemid()
     {
         return $this->itemid;
+    }
+
+    public function getItem()
+    {
+        $itemss = new ArrayCollection();
+        
+        foreach($this->po as $p)
+        {
+            $items[] = $p->getItem();
+        }
+
+        return $products;
+    }
+
+    public function setItem($items)
+    {
+        foreach($items as $i)
+        {
+            $po = new ProductOrder();
+
+            $po->setCart($this);
+            $po->setItem($i);
+
+            $this->addPo($po);
+        }
+
     }
 }

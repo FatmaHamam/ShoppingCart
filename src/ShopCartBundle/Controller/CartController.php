@@ -12,6 +12,8 @@ use ShopCartBundle\Entity\Cart;
 use ShopCartBundle\Form\CartType;
 use ShopCartBundle\Entity\Items;
 use ShopCartBundle\Form\ItemType;
+use ShopCartBundle\Entity\CartItems;
+use ShopCartBundle\Form\CartItemsType;
 
 /**
  * Cart controller.
@@ -49,14 +51,14 @@ class CartController extends Controller
     {
         $entity = new Cart();
         $form = $this->createForm(new CartType(), $entity);
-        $form->handleRequest($request);
+        $form->bindRequest($request);
 
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('cart_show', array('id' => $entity->getId())));
+            return $this->render('ShopCartBundle:Cart:show.html.twig', $build);
         }
 
         return array(
@@ -65,24 +67,6 @@ class CartController extends Controller
         );
     }
 
-    /**
-     * Creates a form to create a Cart entity.
-     *
-     * @param Cart $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(Cart $entity)
-    {
-        $form = $this->createForm(new CartType(), $entity, array(
-            'action' => $this->generateUrl('cart_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
 
     /**
      * Displays a form to create a new Cart entity.
@@ -132,21 +116,32 @@ class CartController extends Controller
      */
     public function showAction($id)
     {
-        // $carts = $this->getDoctrine()->getRepository('ShopCartBundle:Cart')->find($id);
+        $entity = $this->getDoctrine()->getRepository('ShopCartBundle:Cart')->find($id);
 
-        // if (!$carts) {
-        //     throw $this->createNotFoundException('Unable to find Cart entity.');
-        // }
+        if (!entity) {
+            throw $this->createNotFoundException('Unable to find Cart entity.');
+        }
 
         // $build['cart'] = $carts;
         // return $this->render('ShopCartBundle:Cart:index.html.twig', $build);
 
-        // $deleteForm = $this->createDeleteForm($id);
+         $deleteForm = $this->createDeleteForm($id);
 
         return array(
             'entity'      => $entity,
             'delete_form' => $deleteForm->createView(),
         );
+    }
+
+    public function listAction()
+    {
+        $carts = $this->getDoctrine()->getEntityManager()
+            ->createQuery('SELECT partial u.{id,description,totalprice,type} FROM ShopCartBundle:Cart u')
+            ->getResult()
+        ;
+        $build['carts'] = $carts;
+        return $this->render('ShopCartBundle:Cart:list.html.twig', $build);
+        return array('carts' => $carts);
     }
 
     /**
@@ -213,13 +208,27 @@ class CartController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
         $editForm = $this->createForm(new CartType(), $entity);
-        $editForm->handleRequest($request);
+        $previous = $entity->getPo();
+        $previous = $previous->toArray();
 
-        if ($editForm->isValid()) {
+        $request = $this->getRequest();
+
+        $editForm->bindRequest($request);
+
+        foreach($previous as $c)
+        {
+            $entity->removePo($c);
+        }
+
+        if($editForm->isValid())
+        {
+            $em->persist($entity);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('cart_edit', array('id' => $id)));
+             return $this->render('ShopCartBundle:Cart:edit.html.twig', $build);
+
         }
+
 
         return array(
             'entity'      => $entity,
@@ -236,22 +245,28 @@ class CartController extends Controller
     public function deleteAction(Request $request, $id)
     {
 
-        $form = $this->createDeleteForm($id);
+        $em = $this->getDoctrine()->getManager();
+        $entity = $em->getRepository('ShopCartBundle:Cart')->find($id);
+        if (!$entity) {
+          throw $this->createNotFoundException(
+                  'No items found for id ' . $id
+            );
+        }
+
+        $form = $this->createFormBuilder($entity)
+                ->add('delete', 'submit')
+                ->getForm();
+
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $entity = $em->getRepository('ShopCartBundle:Cart')->find($id);
-
-            if (!$entity) {
-                throw $this->createNotFoundException('Unable to find Cart entity.');
-            }
-
-            $em->remove($entity);
-            $em->flush();
+          $em->remove($entity);
+          $em->flush();
+          return new Response('Cart deleted successfully');
         }
-
-        return $this->redirect($this->generateUrl('cart'));
+        
+        $build['form'] = $form->createView();
+        return $this->render('ShopCartBundle:Cart:new.html.twig', $build);
     }
 
     /**
@@ -275,4 +290,24 @@ class CartController extends Controller
         $em->flush();
         
     }
+
+    public function EmptyCartAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $qry = $em->createQuery('Delete FROM ShopCartBundle\Entity\Cart 
+                WHERE id ='
+        )->setParameter('id', $id);
+        $carts = $qry->getResult();
+        $build['carts'] = $carts;
+        return $this->render('ShopCartBundle:Cart:list.html.twig', $build);
+        return array('carts' => $carts);
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array( 'id' => $id ))
+                        ->add('id' , 'hidden')
+                        ->getForm();
+    }
+
 }

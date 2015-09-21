@@ -49,7 +49,7 @@ class CartItemsController extends Controller
     public function createAction(Request $request)
     {
         $entity = new CartItems();
-        $form = $this->createCreateForm($entity);
+        $form = $this->createForm(new CartItemsType(),$entity);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
@@ -67,42 +67,23 @@ class CartItemsController extends Controller
     }
 
     /**
-     * Creates a form to create a CartItems entity.
-     *
-     * @param CartItems $entity The entity
-     *
-     * @return \Symfony\Component\Form\Form The form
-     */
-    private function createCreateForm(CartItems $entity)
-    {
-        $form = $this->createForm(new CartItemsType(), $entity, array(
-            'action' => $this->generateUrl('cartitems_create'),
-            'method' => 'POST',
-        ));
-
-        $form->add('submit', 'submit', array('label' => 'Create'));
-
-        return $form;
-    }
-
-    /**
      * Displays a form to create a new CartItems entity.
      *
      * @Route("/new", name="cartitems_new")
      * @Method("GET")
      * @Template()
      */
-    // public function addAction($id)
-    // {
-    //     $em = $this->getDoctrine()->getEntityManager();
+    public function addAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
 
-    //     $item = $em->getRepository('ShopCartBundle:Items')->find($id);
-    //     $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
+        $item = $em->getRepository('ShopCartBundle:Items')->find($id);
+        $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
 
-    //     $cart->addItemid($item);
+        $cart->addItemid($item);
 
-    //     $em->flush();
-    // }
+        $em->flush();
+    }
 
     /**
      * Finds and displays a CartItems entity.
@@ -111,41 +92,30 @@ class CartItemsController extends Controller
      * @Method("GET")
      * @Template()
      */
-    public function showAction()
+    public function showAction($id)
     {
-         $em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
-        // $entity = $em->getRepository('ShopCartBundle:CartItems')->find($id);
+        $entity = $em->getRepository('ShopCartBundle:CartItems')->find($id);
 
-        // if (!$entity) {
-        //     throw $this->createNotFoundException('Unable to find CartItems entity.');
-        // }
+        if (!$entity) {
+            throw $this->createNotFoundException('Unable to find CartItems entity.');
+        }
 
-        // $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($id);
 
-        // return array(
-        //     'entity'      => $entity,
-        //     'delete_form' => $deleteForm->createView(),
-        // );
-    //     $dql = '
-    //     SELECT   name,price
-    //     FROM     ShopCartBundle\Entity\Items a
-    //     WHERE    a.id=
-    //     (SELECT itemid FROM ShopCartBundle\Entity\Cart
-    //     WHERE id=1)';
+        return array(
+            'entity'      => $entity,
+            'delete_form' => $deleteForm->createView(),
+        );
+        
 
-    //     $carts = $em->createQuery($dql)->getResult();
+        // $item = $em->getRepository('ShopCartBundle:Items')->findAll();
+        // $cart = $em->getRepository('ShopCartBundle:Cart')->find($id);
 
-    //     foreach ($carts as $cart) {
-    //         echo $cart->getType() . PHP_EOL;
+        // $cart->addItemid($item);
 
-    //         foreach ($cart->getitems() as $item) {
-    //             echo sprintf("\t#%d - %-20s (%s) %s\n", 
-    //                 $item->getName(),
-    //                 $item->getType()
-    //             );
-    //         }   
-    // }
+        // $em->flush();
     }
 
     /**
@@ -215,6 +185,7 @@ class CartItemsController extends Controller
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
+            $em->persist($entity);
             $em->flush();
 
             return $this->redirect($this->generateUrl('cartitems_edit', array('id' => $id)));

@@ -23,10 +23,16 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">show</a>
+                        <a href="{{ path("shop_cart_cart_show", {"id": entity.id}) }}">Show</a>
                     </li>
                     <li>
-                        <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">edit</a>
+                        <a href="{{ path("shop_cart_cart_edit", {"id": entity.id}) }}">Edit</a>
+                    </li>
+                    <li>
+                        <a href="{{ path("shop_cart_cart_delete", {"id": entity.id}) }}">Delete</a>
+                    </li>
+                    <li>
+                        <a href="{{ path("shop_cart_cart_EmptyCart", {"id": entity.id}) }}">Empty Cart</a>
                     </li>
                 </ul>
                 </td>
@@ -41,8 +47,6 @@
                 Create a new entry
             </a>
         </li>
-        <li>
-            <a href="{{ path(app.request.attributes.get('_route'), app.request.attributes.get('_route_params')) }}">AddItemtoCart</a>
-        </li>
+        
     </ul>
     {% endblock %}

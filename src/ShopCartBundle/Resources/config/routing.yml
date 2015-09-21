@@ -2,6 +2,9 @@ shop_cart_homepage:
     path:     /hello/{name}
     defaults: { _controller: ShopCartBundle:Default:index }
 
+ # Cart Routing
+
+
 shop_cart_cart_show:
     path:     /carts/
     defaults: { _controller: ShopCartBundle:Cart:index }
@@ -14,18 +17,26 @@ shop_cart_cart_deleteitem:
     path:     /carts/{id}/deleteitem
     defaults: { _controller: ShopCartBundle:Cart:deleteitem }
 
+
 shop_cart_cart_create:
     path:     /carts/create
     defaults: { _controller: ShopCartBundle:Cart:create }
 
-shop_cart_cart_AddItemToCart:
-    path:     /carts/{id}/AddItemToCart
-    defaults: { _controller: ShopCartBundle:Cart:AddItemToCart }
+shop_cart_cart_edit:
+    path:     /carts/create
+    defaults: { _controller: ShopCartBundle:Cart:create }
 
+shop_cart_cart_delete:
+    path:     /carts/{id}/delete
+    defaults: { _controller: ShopCartBundle:Cart:delete }
 
+shop_cart_cart_EmptyCart:
+    path:     /carts/{id}/emptycart
+    defaults: { _controller: ShopCartBundle:Cart:EmptyCart }
 
-
-
+shop_cart_cart_list:
+    path:     /carts/list
+    defaults: { _controller: ShopCartBundle:Cart:list }
 
 
 
@@ -57,9 +68,13 @@ shop_cart_item_delete:
 #     requirements:
 #         id:  \d+
 
-# shop_cart_cartitems_add:
-#     path:     /cartitems/{id}/add
-#     defaults: { _controller: ShopCartBundle:CartItems:add }
+shop_cart_cartitems_add:
+    path:     /cartitems/{id}/add
+    defaults: { _controller: ShopCartBundle:CartItems:add }
+
+shop_cart_cartitems_show:
+    path:     /cartitems/
+    defaults: { _controller: ShopCartBundle:CartItems:index }
 
 
 

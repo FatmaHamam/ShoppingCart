@@ -39,6 +39,14 @@ class CartType extends AbstractType
         ));
     }
 
+    public function getDefaultOptions(array $options)
+    {
+        return array(
+            'data_class' => 'hopCartBundle\Entity\Cart' ,
+            'em'         => '' ,
+        );
+    }
+
     /**
      * @return string
      */

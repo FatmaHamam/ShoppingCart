@@ -22,16 +22,16 @@ class CartItems
     private $id;
 
     /**
-     * @var \stdClass
      *
-     * @ORM\Column(name="cart", type="object")
+     * @ORM\ManyToOne(targetEntity="Cart", inversedBy="po")
+     * @ORM\JoinColumn(name="cart_id", referencedColumnName="id")
      */
     private $cart;
 
     /**
-     * @var \stdClass
      *
-     * @ORM\Column(name="items", type="object")
+     * @ORM\ManyToOne(targetEntity="Item", inversedBy="po")
+     * @ORM\JoinColumn(name="item_id", referencedColumnName="id")
      */
     private $items;
 
@@ -92,6 +92,11 @@ class CartItems
     public function getItems()
     {
         return $this->items;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->prodcut;
     }
 }
 

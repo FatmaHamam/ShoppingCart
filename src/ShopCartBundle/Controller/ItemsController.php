@@ -49,8 +49,11 @@ class ItemsController extends Controller
         $form = $this->createFormBuilder($entity)
             ->add('name', 'text')
             ->add('description', 'text')
-            ->add('type', 'text')
-            ->add('price', 'number')
+            ->add('type', 'choice', array(
+            'choices'  => array('N' => 'Normal', 'S' => 'Sale'),
+            'required' => true,
+            ))
+            ->add('price', 'money')
             ->add('save', 'submit')
             ->getForm();
 
@@ -62,8 +65,13 @@ class ItemsController extends Controller
            return new Response('News added successfuly');
          }
     
-     $build['form'] = $form->createView();
-     return $this->render('ShopCartBundle:Items:new.html.twig', $build);
+         $build['form'] = $form->createView();
+         return $this->render('ShopCartBundle:Items:new.html.twig', $build);
+
+        return array(
+            'entity' => $entity,
+            'form'   => $form->createView()
+        );
     }
 
     /**
@@ -76,7 +84,7 @@ class ItemsController extends Controller
     public function newAction()
     {
         $entity = new Items();
-        $form   = $this->createCreateForm($entity);
+        $form   = $this->createForm(new ItemsType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -165,7 +173,7 @@ class ItemsController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createEditForm($entity);
+        $editForm = $this->createForm(new ItemsType(), $entity);
         $editForm->handleRequest($request);
 
         if ($editForm->isValid()) {
@@ -210,6 +218,14 @@ class ItemsController extends Controller
         
         $build['form'] = $form->createView();
         return $this->render('ShopCartBundle:Items:new.html.twig', $build);
+    }
+
+    private function createDeleteForm($id)
+    {
+        return $this->createFormBuilder(array('id' => $id))
+            ->add('id', 'hidden')
+            ->getForm()
+        ;
     }
 
 }
