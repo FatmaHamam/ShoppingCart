@@ -22,10 +22,6 @@ shop_cart_cart_create:
     path:     /carts/create
     defaults: { _controller: ShopCartBundle:Cart:create }
 
-shop_cart_cart_edit:
-    path:     /carts/create
-    defaults: { _controller: ShopCartBundle:Cart:create }
-
 shop_cart_cart_delete:
     path:     /carts/{id}/delete
     defaults: { _controller: ShopCartBundle:Cart:delete }
@@ -39,6 +35,7 @@ shop_cart_cart_list:
     defaults: { _controller: ShopCartBundle:Cart:list }
 
 
+# Items routing
 
 shop_cart_item_show:
     path:     /items/
@@ -62,11 +59,7 @@ shop_cart_item_delete:
         id:  \d+
 
 
-# shop_cart_cartitems_show:
-#     path:     /cartitems/
-#     defaults: { _controller: ShopCartBundle:CartItems:show }
-#     requirements:
-#         id:  \d+
+# CartItems Routing
 
 shop_cart_cartitems_add:
     path:     /cartitems/{id}/add
@@ -75,6 +68,18 @@ shop_cart_cartitems_add:
 shop_cart_cartitems_show:
     path:     /cartitems/
     defaults: { _controller: ShopCartBundle:CartItems:index }
+
+shop_cart_cartitem_edit:
+    path:     /cartitems/{id}/edit
+    defaults: { _controller: ShopCartBundle:CartItems:edit }
+    requirements:
+        id:  \d+
+
+shop_cart_cartitems_delete:
+    path:     /cartitems/{id}/delete
+    defaults: { _controller: ShopCartBundle:CartItems:delete }
+    requirements:
+        id:  \d+
 
 
 
